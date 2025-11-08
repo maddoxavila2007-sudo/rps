@@ -106,12 +106,9 @@ const resultMessage = computed(() => {
 
     <p v-if="result" class="text-2xl font-semibold mt-2">{{ resultMessage }}</p>
 
-    <button class="deletebtn" @click="score.player = 0; score.computer = 0; score.ties = 0;">
-      Delete Score
-    </button>
-
-    <button class="resetbtn" @click="player = null; computer = null; result = null;">
-      Reset Game
+     <button class="deletebtn" @click="score.player = 0; score.computer = 0; score.ties = 0; 
+      player = null; computer = null; result = null;">
+      Delete Score and reset
     </button>
 
   </div>
