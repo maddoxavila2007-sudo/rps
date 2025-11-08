@@ -2,9 +2,31 @@
 import { ref, computed } from 'vue'
 
 const choices = [
-  { name: 'Rock', image: './src/assets/Piedra.jpg' },
-  { name: 'Paper', image: './src/assets/Papel.png' },
-  { name: 'Scissors', image: './src/assets/Tijeras.jpg' }
+ {
+    name: 'Rock',
+    svg: `<svg xmlns="http://www.w3.org/2000/svg&quot; fill="none" viewBox="0 0 64 64">
+      <path fill="#888" d="M20 10h24v44H20z" />
+      <path fill="#555" d="M16 26h32v28H16z" />
+    </svg>`
+  },
+  {
+    name: 'Paper',
+    svg: `<svg xmlns="http://www.w3.org/2000/svg&quot; fill="none" viewBox="0 0 64 64">
+      <rect x="16" y="8" width="32" height="48" fill="#ddd" stroke="#999" stroke-width="2" />
+      <line x1="22" y1="16" x2="42" y2="16" stroke="#999" stroke-width="2"/>
+      <line x1="22" y1="22" x2="42" y2="22" stroke="#999" stroke-width="2"/>
+      <line x1="22" y1="28" x2="42" y2="28" stroke="#999" stroke-width="2"/>
+    </svg>`
+  },
+  {
+    name: 'Scissors',
+    svg: `<svg xmlns="http://www.w3.org/2000/svg&quot; fill="none" viewBox="0 0 64 64">
+      <circle cx="20" cy="20" r="8" stroke="#555" stroke-width="3"/>
+      <circle cx="44" cy="20" r="8" stroke="#555" stroke-width="3"/>
+      <line x1="20" y1="28" x2="44" y2="44" stroke="#555" stroke-width="3"/>
+      <line x1="20" y1="44" x2="44" y2="28" stroke="#555" stroke-width="3"/>
+    </svg>`
+  }
 ]
 
 const player = ref(null)
@@ -49,7 +71,7 @@ const resultMessage = computed(() => {
 
 <template>
   <div class="max-w-lg mx-auto p-6 bg-white rounded-xl shadow-md text-center">
-    <h1 class="text-3xl font-bold mb-6">Rock • Paper • Scissors</h1>
+    <h1 class="text-3xl font-bold mb-6"> Rock • Paper • Scissors </h1>
 
     <!-- Score -->
     <div class="flex justify-around mb-4 font-semibold">
@@ -60,9 +82,13 @@ const resultMessage = computed(() => {
 
     <!-- Choices -->
     <div class="flex justify-center gap-4 mb-4">
-      <button v-for="c in choices" :key="c.name" @click="play(c)"
+      <button 
+      v-for="c in choices" 
+      :key="c.name" 
+      @click="play(c)"
         class="p-2 rounded-lg border hover:scale-110 transition-transform">
-        <img :src="c.image" :alt="c.name" class="w-20 h-20 object-contain" />
+
+        <div v-html="c.svg" class="w-16 h-16"></div>
       </button>
     </div>
 
@@ -70,14 +96,24 @@ const resultMessage = computed(() => {
     <div v-if="player && computer" class="mb-4 flex justify-center gap-6 items-center">
       <div class="text-center">
         <p class="mb-1">You chose:</p>
-        <img :src="player.image" :alt="player.name" class="w-24 h-24" />
+        <div v-html="player.svg" class="w-24 h-24 mx-auto"></div>
       </div>
+      
       <div class="text-center">
         <p class="mb-1">Computer chose:</p>
-        <img :src="computer.image" :alt="computer.name" class="w-24 h-24" />
-      </div>
+        <div v-html="computer.svg" class="w-24 h-24 mx-auto"></div>
     </div>
 
     <p v-if="result" class="text-2xl font-semibold mt-2">{{ resultMessage }}</p>
+
+    <button class="deletebtn" @click="score.player = 0; score.computer = 0; score.ties = 0;">
+      Delete Score
+    </button>
+
+    <button class="resetbtn" @click="player = null; computer = null; result = null;">
+      Reset Game
+    </button>
+
+  </div>
   </div>
 </template>
